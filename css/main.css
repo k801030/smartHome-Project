@@ -4,7 +4,9 @@
 }
 
 .chart {
+	display: inline-block;
 	float: left;
+	width: 400px;
 }
 
 li {
@@ -27,4 +29,8 @@ label {
 
 canvas, label {
 	border: 0px solid #999;
+}
+
+.title {
+	display: block;
 }

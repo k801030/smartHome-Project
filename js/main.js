@@ -1,13 +1,16 @@
 $(document).ready(function(){
 	var pieLoader = new PieChartLoader("#pieChart");
 	pieLoader.loadDefaultSet(pieChartDefault);
-	pieLoader.loadValue([1,2,3]);
+	pieLoader.loadValue([38,39,23]);
 	pieLoader.draw();
 	
 
 	var barLoader = new BarChartLoader("#barChart");
 	barLoader.loadDefaultSet(barChartDefault);
-	//barLoader.loadValue([1,2,3]);
+	barLoader.loadValue(
+		["5F-A","5F-B","7F-B","7F-C"],
+		[10,16,15,5],
+		[12,11,10,5]);
 	barLoader.draw();
 
 });
@@ -32,16 +35,7 @@ var ChartLoader = function(id){
 		this.options = pieChartDefault.options;
 	};
 
-	// load the chart options
-	this.loadOptions = function(){
-
-	}
-	// load the useful value from sensor for chart
-	this.loadValue = function(valueArray){
-		for(var i=0; i<valueArray.length; i++){
-			this.data[i].value = valueArray[i];
-		}
-	};
+	
 	
 }
 
@@ -62,6 +56,13 @@ var PieChartLoader = function(id){
 		html += "</ul>";
 		return html;
 	}
+
+	// load the useful value from sensor for chart
+	pieChartLoader.loadValue = function(valueArray){
+		for(var i=0; i<valueArray.length; i++){
+			this.data[i].value = valueArray[i];
+		}
+	};
 
 	return pieChartLoader;
 }
@@ -84,6 +85,12 @@ var BarChartLoader = function(id){
 		return html;
 	}
 
+	barChartLoader.loadValue = function(labels,values1,values2){
+		this.data.labels = labels;
+		this.data.datasets[0].data = values1;
+		this.data.datasets[1].data = values2;
+	};
+
 	return barChartLoader;
 }
 
@@ -92,22 +99,22 @@ var pieChartDefault = {
 	data:
 		[
 			{
-				value    : 10,
+				value    : 0,
 				color    : "#F7464A",
 				highlight: "#FF5A5E",
-				label    : "Red"
+				label    : "溫度過高"
 			},
 			{
 				value    : 0,
 				color    : "#46BFBD",
 				highlight: "#5AD3D1",
-				label    : "Green"
+				label    : "溫度過低"
 		    },
 		    {
 				value    : 0,
 				color    : "#FDB45C",
 				highlight: "#FFC870",
-				label    : "Yellow"
+				label    : "無預警停止運轉"
 		    }
 		],
 	options:{
@@ -117,23 +124,23 @@ var pieChartDefault = {
 
 var barChartDefault = {
     data:{
-	    labels: ["January", "February", "March", "April", "May", "June", "July"],
+	    labels: [],
 	    datasets: [
 	        {
-	            label: "My First dataset",
+	            label: "控制設備數量",
 	            fillColor: "rgba(220,220,220,0.5)",
 	            strokeColor: "rgba(220,220,220,0.8)",
 	            highlightFill: "rgba(220,220,220,0.75)",
 	            highlightStroke: "rgba(220,220,220,1)",
-	            data: [65, 59, 80, 81, 56, 55, 40]
+	            data: []
 	        },
 	        {
-	            label: "My Second dataset",
+	            label: "事件數量",
 	            fillColor: "rgba(151,187,205,0.5)",
 	            strokeColor: "rgba(151,187,205,0.8)",
 	            highlightFill: "rgba(151,187,205,0.75)",
 	            highlightStroke: "rgba(151,187,205,1)",
-	            data: [28, 48, 40, 19, 86, 27, 90]
+	            data: []
 	        }
 	    ]},
 
