@@ -1,11 +1,11 @@
 .basic-chart {
 	display: inline-block;
 	float: left;
-	width: 400;
-	height: 400;
-	margin: 10px;
 }
 
+.chart {
+	float: left;
+}
 
 li {
 	list-style-type: none;
@@ -18,4 +18,13 @@ li > span {
 	width: 6px;
 	border-radius: 1.5px;
 	margin: 5px;
+}
+
+label {
+	display: inline-block;
+	margin-top: auto;
+}
+
+canvas, label {
+	border: 0px solid #999;
 }
