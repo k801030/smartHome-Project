@@ -1,6 +1,5 @@
 $(document).ready(function(){
-	var pieCtx = $("#pieChart").get(0).getContext("2d");
-	var pieLoader = new chartLoader(pieCtx);
+	var pieLoader = new chartLoader("#pieChart");
 	pieLoader.loadDefaultSet(pieChartDefault);
 	pieLoader.loadValue([1,2,3]);
 	pieLoader.draw();
@@ -15,10 +14,10 @@ function chartStyle(){
 	};
 }
 
-function chartLoader(ctx){
-	this.ctx = ctx;
+function chartLoader(id){
+	this.id = id;
 	this.data = null;
-	this.option = null;
+	this.options = null;
 	this.path = "json/";
 
 	// load the default style of chart
@@ -30,7 +29,8 @@ function chartLoader(ctx){
 		});
 		*/
 		//this.data = jQuery.parseJSON(json);
-		this.data = pieChartDefault.ds;
+		this.data = pieChartDefault.data;
+		this.options = pieChartDefault.options;
 	};
 
 	// load the chart options
@@ -46,13 +46,23 @@ function chartLoader(ctx){
 	};
 
 	this.draw = function(){
-		var pieChart = new Chart(this.ctx).Pie(this.data, this.options);
+		var ctx = $(id).find("canvas").get(0).getContext("2d");
+		var pieChart = new Chart(ctx).Pie(this.data, this.options);
+		var labels = $(id).find("label");
+		labels.append(this.loadLabel());
+	}
+
+	this.loadLabel = function(){
+		html = "";
+		for(var i=0; i<this.data.length; i++)
+			html += "<li><span style=\"background-color:" + this.data[i].color+ "\"></span> " + this.data[i].label + "</li>";
+		return html;
 	}
 }
 
 
 var pieChartDefault = {
-	ds:
+	data:
 		[
 			{
 				value    : 10,
@@ -73,8 +83,8 @@ var pieChartDefault = {
 				label    : "Yellow"
 		    }
 		],
-	option:{
-		animateScale: false
+	options:{
+		animation: false
 	}
 }
 
